@@ -1,0 +1,59 @@
+---
+import blogPosts from '../data/blog-posts.json';
+---
+
+<section class="py-12 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold mb-8 text-center text-gray-800 dark:text-gray-100">Latest Blog Posts</h2>
+    <div class="space-y-8">
+      {blogPosts.map((post) => (
+        <article class="flex flex-col md:flex-row bg-white dark:bg-gray-700 shadow-md rounded-lg overflow-hidden transition-colors duration-300">
+          <div class="md:w-1/4 p-6 bg-gray-100 dark:bg-gray-600">
+            <time class="text-gray-600 dark:text-gray-300 font-medium">{post.date}</time>
+          </div>
+          <div class="md:w-3/4 p-6">
+            <h3 class="text-xl font-semibold mb-2">
+              <a href={`/blog/${post.slug}`} class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-200">
+                {post.title}
+              </a>
+            </h3>
+            <div class="mb-4">
+              {post.tags.map((tag) => (
+                <span class="inline-block bg-gray-200 dark:bg-gray-600 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2 hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors duration-200">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">{post.description}</p>
+            <a href={`/blog/${post.slug}`} class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-200">
+              Read more →
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  // Check for dark mode preference
+  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark')
+  } else {
+    document.documentElement.classList.remove('dark')
+  }
+
+  // Toggle dark mode
+  function toggleDarkMode() {
+    if (document.documentElement.classList.contains('dark')) {
+      document.documentElement.classList.remove('dark')
+      localStorage.theme = 'light'
+    } else {
+      document.documentElement.classList.add('dark')
+      localStorage.theme = 'dark'
+    }
+  }
+
+  // Add event listener to a button (you need to add this button to your layout)
+  document.getElementById('darkModeToggle')?.addEventListener('click', toggleDarkMode)
+</script>

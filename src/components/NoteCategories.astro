@@ -1,0 +1,71 @@
+---
+interface Note {
+  title: string;
+  slug: string;
+}
+
+interface Category {
+  id: number;
+  title: string;
+  slug: string;
+  notes: Note[];
+}
+
+const categories: Category[] = Array(30).fill(null).map((_, index) => ({
+  id: index + 1,
+  title: `Category ${index + 1}`,
+  slug: `category-${index + 1}`,
+  notes: Array(3).fill(null).map((_, noteIndex) => ({
+    title: `Note ${index + 1}.${noteIndex + 1}`,
+    slug: `note-${index + 1}-${noteIndex + 1}`,
+  })),
+}));
+
+const chunkedCategories = categories.reduce((resultArray, item, index) => {
+  const chunkIndex = Math.floor(index / 10);
+  if (!resultArray[chunkIndex]) {
+    resultArray[chunkIndex] = [];
+  }
+  resultArray[chunkIndex].push(item);
+  return resultArray;
+}, [] as Category[][]);
+---
+
+<section class="py-12 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">Note Categories</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {chunkedCategories.map((column) => (
+        <div class="space-y-6">
+          {column.map((category) => (
+            <div key={category.id} class="bg-white shadow-md rounded-lg p-4">
+              <h3 class="text-lg font-semibold mb-2 flex items-center">
+                <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2">
+                  {category.id}
+                </span>
+                <a
+                  href={`/categories/${category.slug}`}
+                  class="text-blue-600 hover:text-blue-800 hover:underline transition-colors duration-200"
+                >
+                  {category.title}
+                </a>
+              </h3>
+              <ul class="ml-8 space-y-1">
+                {category.notes.map((note) => (
+                  <li>
+                    <a
+                      href={`/notes/${note.slug}`}
+                      class="text-gray-600 hover:text-blue-600 hover:underline transition-colors duration-200"
+                    >
+                      {note.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,42 @@
+[
+    {
+      "id": 1,
+      "date": "2023-08-01",
+      "title": "Getting Started with Astro",
+      "tags": ["Astro", "JavaScript", "Web Development"],
+      "description": "Learn the basics of Astro and start building your first static site generator application.",
+      "slug": "getting-started-with-astro"
+    },
+    {
+      "id": 2,
+      "date": "2023-08-05",
+      "title": "Advanced TypeScript Techniques",
+      "tags": ["TypeScript", "JavaScript", "Programming"],
+      "description": "Dive deep into advanced TypeScript features and improve your code quality.",
+      "slug": "advanced-typescript-techniques"
+    },
+    {
+      "id": 3,
+      "date": "2023-08-10",
+      "title": "Building Responsive Layouts with Tailwind CSS",
+      "tags": ["CSS", "Tailwind", "Web Design"],
+      "description": "Learn how to create beautiful, responsive layouts quickly using Tailwind CSS.",
+      "slug": "building-responsive-layouts-with-tailwind"
+    },
+    {
+      "id": 4,
+      "date": "2023-08-15",
+      "title": "State Management in React with Redux",
+      "tags": ["React", "Redux", "State Management"],
+      "description": "Explore how to manage complex state in your React applications using Redux.",
+      "slug": "state-management-in-react-with-redux"
+    },
+    {
+      "id": 5,
+      "date": "2023-08-20",
+      "title": "Optimizing Astro Performance",
+      "tags": ["Astro", "Performance", "Optimization"],
+      "description": "Discover techniques to optimize your Astro applications for better performance.",
+      "slug": "optimizing-astro-performance"
+    }
+  ]
