@@ -1,47 +1,20 @@
-# Astro Starter Kit: Minimal
+# GeauxWeisbeck4.dev | Digital Garden and Personal Website of Andrew Weisbeck
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Welcome to my digital garden. I have needed to create an official digital garden for quite some time now as I have never really published my workspace that I consider my digital garden for one reason or another. I think part of the reason is that I have multiple machines with a bunch of different note collections and resources using different tools. This project aims to consolidate all those different collections into on space so I can share my knowledge with you and work in public. 
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+## Tech Stack
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+- [Astro](https://astro.build/) - Framework to help you build kickass websites and apps. Astro is my absolute favorite for a lot of different reasons, but mainly due to its developer friendliness and speed. It is really easy to create content sites with Astro.
+- [TailwindCSS](https://tailwindcss.com) - Another piece of this stack that you will see in almost every other project of mine. Just makes it so much easier to build something with TailwindCSS than to write out all the custom CSS, which I can do, I just love Tailwind too much now though.
+- [React.js](https://react.dev) - React is used to create some of the components in the initial development of the website, but I am not sure if they will stay or not yet. Stay tuned for more info.
 
-## 🚀 Project Structure
+## To Do List
 
-Inside of your Astro project, you'll see the following folders and files:
+This project has a lot of work that it requires before it is ready to be functional. Here is an immediate to do list.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- [ ] Create all the pages
+- [ ] Design layout
+- [ ] Notes and other content
+- [ ] Blog
+- [ ] Projects
+- [ ] README.md
