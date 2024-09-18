@@ -1,0 +1,252 @@
+---
+---
+
+<div id="music-components" class="fixed left-4 bottom-4 z-50">
+    <div id="spotify-floating-card" class="hidden w-80 bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300">
+      <div id="full-view" class="p-4">
+        <div class="flex justify-between items-center mb-2">
+          <h3 class="text-lg font-semibold">My Playlist</h3>
+          <button id="hide-button" class="text-gray-500 hover:text-gray-700">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+        </div>
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/03fxMKs8A6QGe6hRltp3jC?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+      </div>
+
+      <div id="compact-view" class="hidden p-4">
+        <div class="flex justify-between items-center mb-2">
+          <h3 class="text-sm font-semibold truncate w-48" id="current-song">No song playing</h3>
+          <button id="show-button" class="text-gray-500 hover:text-gray-700">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+            </svg>
+          </button>
+        </div>
+        <div class="text-xs text-gray-500 mb-2" id="time-left">0:00</div>
+        <div class="flex justify-between items-center">
+          <button id="compact-play-pause" class="bg-green-500 text-white p-2 rounded-full hover:bg-green-600 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+            </svg>
+          </button>
+          <input type="range" id="compact-volume" min="0" max="100" value="50" class="w-24">
+          <button id="compact-skip" class="bg-gray-200 p-2 rounded-full hover:bg-gray-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="music-prompt" class="hidden bg-white p-4 rounded-lg shadow-lg">
+      <button id="show-music" class="text-blue-600 hover:text-blue-800 transition-colors">
+        I want music
+      </button>
+    </div>
+  </div>
+
+  <div id="music-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-lg shadow-xl">
+      <h2 class="text-xl font-bold mb-4">Would you like to listen to some music?</h2>
+      <div class="flex justify-end space-x-4">
+        <button id="modal-no" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition-colors">No</button>
+        <button id="modal-yes" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Yes</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let player;
+    let playerState = {
+      isPlaying: false,
+      currentTrack: null,
+      volume: 50,
+      timeLeft: 0
+    };
+
+    function initializePlayer() {
+      if (typeof Spotify !== 'undefined') {
+        const token = 'YOUR_SPOTIFY_ACCESS_TOKEN'; // Replace with your actual token
+        player = new Spotify.Player({
+          name: 'Web Playback SDK Quick Start Player',
+          getOAuthToken: cb => { cb(token); }
+        });
+
+        // Error handling
+        player.addListener('initialization_error', ({ message }) => { console.error(message); });
+        player.addListener('authentication_error', ({ message }) => { console.error(message); });
+        player.addListener('account_error', ({ message }) => { console.error(message); });
+        player.addListener('playback_error', ({ message }) => { console.error(message); });
+
+        // Playback status updates
+        player.addListener('player_state_changed', state => {
+          console.log(state);
+          if (state) {
+            playerState.isPlaying = !state.paused;
+            playerState.currentTrack = state.track_window.current_track.name;
+            playerState.timeLeft = state.duration - state.position;
+            updateUI();
+          }
+        });
+
+        // Ready
+        player.addListener('ready', ({ device_id }) => {
+          console.log('Ready with Device ID', device_id);
+          // You can now use the device_id to control playback
+        });
+
+        // Connect to the player!
+        player.connect();
+      }
+    }
+
+    function updateUI() {
+      const currentSongElement = document.getElementById('current-song');
+      const timeLeftElement = document.getElementById('time-left');
+      const playPauseButton = document.getElementById('play-pause');
+      const compactPlayPauseButton = document.getElementById('compact-play-pause');
+
+      if (currentSongElement) currentSongElement.textContent = playerState.currentTrack || 'No song playing';
+      if (timeLeftElement) {
+        const minutes = Math.floor(playerState.timeLeft / 60000);
+        const seconds = ((playerState.timeLeft % 60000) / 1000).toFixed(0);
+        timeLeftElement.textContent = `${minutes}:${seconds.padStart(2, '0')}`;
+      }
+      if (playPauseButton) playPauseButton.textContent = playerState.isPlaying ? 'Pause' : 'Play';
+      if (compactPlayPauseButton) {
+        compactPlayPauseButton.innerHTML = playerState.isPlaying
+          ? '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m-9-3h14" /></svg>'
+          : '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /></svg>';
+      }
+    }
+
+    function setupEventListeners() {
+      const playPauseButton = document.getElementById('play-pause');
+      const volumeSlider = document.getElementById('volume');
+      const skipButton = document.getElementById('skip');
+      const compactPlayPauseButton = document.getElementById('compact-play-pause');
+      const compactVolumeSlider = document.getElementById('compact-volume');
+      const compactSkipButton = document.getElementById('compact-skip');
+      const hideButton = document.getElementById('hide-button');
+      const showButton = document.getElementById('show-button');
+      const fullView = document.getElementById('full-view');
+      const compactView = document.getElementById('compact-view');
+      const floatingCard = document.getElementById('spotify-floating-card');
+      const musicModal = document.getElementById('music-modal');
+      const modalYes = document.getElementById('modal-yes');
+      const modalNo = document.getElementById('modal-no');
+      const musicPrompt = document.getElementById('music-prompt');
+      const showMusic = document.getElementById('show-music');
+
+      function togglePlay() {
+        if (player) {
+          player.togglePlay().then(() => {
+            playerState.isPlaying = !playerState.isPlaying;
+            updateUI();
+          });
+        }
+      }
+
+      function setVolume(value) {
+        if (player) {
+          player.setVolume(value / 100).then(() => {
+            playerState.volume = value;
+            console.log('Volume updated!');
+          });
+        }
+      }
+
+      function skipTrack() {
+        if (player) {
+          player.nextTrack().then(() => {
+            console.log('Skipped to next track!');
+          });
+        }
+      }
+
+      if (playPauseButton) playPauseButton.onclick = togglePlay;
+      if (compactPlayPauseButton) compactPlayPauseButton.onclick = togglePlay;
+
+      if (volumeSlider) volumeSlider.onchange = function() { setVolume(this.value); };
+      if (compactVolumeSlider) compactVolumeSlider.onchange = function() { setVolume(this.value); };
+
+      if (skipButton) skipButton.onclick = skipTrack;
+      if (compactSkipButton) compactSkipButton.onclick = skipTrack;
+
+      if (hideButton) {
+        hideButton.onclick = function() {
+          fullView.classList.add('hidden');
+          compactView.classList.remove('hidden');
+          floatingCard.classList.remove('w-80');
+          floatingCard.classList.add('w-64');
+        };
+      }
+
+      if (showButton) {
+        showButton.onclick = function() {
+          fullView.classList.remove('hidden');
+          compactView.classList.add('hidden');
+          floatingCard.classList.remove('w-64');
+          floatingCard.classList.add('w-80');
+        };
+      }
+
+      if (modalYes) {
+        modalYes.onclick = function() {
+          musicModal.classList.add('hidden');
+          floatingCard.classList.remove('hidden');
+          localStorage.setItem('musicPreference', 'yes');
+        };
+      }
+
+      if (modalNo) {
+        modalNo.onclick = function() {
+          musicModal.classList.add('hidden');
+          musicPrompt.classList.remove('hidden');
+          localStorage.setItem('musicPreference', 'no');
+        };
+      }
+
+      if (showMusic) {
+        showMusic.onclick = function() {
+          musicPrompt.classList.add('hidden');
+          floatingCard.classList.remove('hidden');
+          localStorage.setItem('musicPreference', 'yes');
+        };
+      }
+    }
+
+    function checkMusicPreference() {
+      const preference = localStorage.getItem('musicPreference');
+      const musicModal = document.getElementById('music-modal');
+      const floatingCard = document.getElementById('spotify-floating-card');
+      const musicPrompt = document.getElementById('music-prompt');
+
+      if (preference === 'yes') {
+        floatingCard.classList.remove('hidden');
+      } else if (preference === 'no') {
+        musicPrompt.classList.remove('hidden');
+      } else {
+        setTimeout(() => {
+          musicModal.classList.remove('hidden');
+        }, 10000); // 10 seconds
+      }
+    }
+
+    // Run on initial load
+    initializePlayer();
+    setupEventListeners();
+    checkMusicPreference();
+
+    // Run on subsequent navigations
+    document.addEventListener('astro:after-swap', () => {
+      setupEventListeners();
+      updateUI();
+    });
+  </script>
+
+  <script src="https://sdk.scdn.co/spotify-player.js"></script>

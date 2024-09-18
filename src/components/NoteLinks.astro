@@ -1,0 +1,226 @@
+---
+interface Note {
+  title: string;
+  slug: string;
+}
+
+interface Subcategory {
+  title: string;
+  slug: string;
+  notes: Note[];
+}
+
+interface Category {
+  id: number;
+  title: string;
+  slug: string;
+  subcategories: Subcategory[];
+}
+
+const categories: Category[] = [
+  {
+    id: 1,
+    title: "Web Development",
+    slug: "web-development",
+    subcategories: [
+      {
+        title: "HTML",
+        slug: "html",
+        notes: [
+          { title: "HTML Basics", slug: "html-basics" },
+          { title: "HTML5 Features", slug: "html5-features" },
+        ],
+      },
+      {
+        title: "CSS",
+        slug: "css",
+        notes: [
+          { title: "CSS Fundamentals", slug: "css-fundamentals" },
+          { title: "Flexbox Layout", slug: "flexbox-layout" },
+        ],
+      },
+      {
+        title: "JavaScript",
+        slug: "javascript",
+        notes: [
+          { title: "JavaScript Basics", slug: "javascript-basics" },
+          { title: "ES6+ Features", slug: "es6-features" },
+        ],
+      },
+    ],
+  },
+  {
+    id: 2,
+    title: "Python Programming",
+    slug: "python-programming",
+    subcategories: [
+      {
+        title: "Python Basics",
+        slug: "python-basics",
+        notes: [
+          { title: "Variables and Data Types", slug: "variables-and-data-types" },
+          { title: "Control Structures", slug: "control-structures" },
+        ],
+      },
+      {
+        title: "Advanced Python",
+        slug: "advanced-python",
+        notes: [
+          { title: "Object-Oriented Programming", slug: "oop-in-python" },
+          { title: "Decorators and Generators", slug: "decorators-and-generators" },
+        ],
+      },
+    ],
+  },
+  {
+    id: 3,
+    title: "Data Science",
+    slug: "data-science",
+    subcategories: [
+      {
+        title: "Machine Learning",
+        slug: "machine-learning",
+        notes: [
+          { title: "Supervised Learning", slug: "supervised-learning" },
+          { title: "Unsupervised Learning", slug: "unsupervised-learning" },
+        ],
+      },
+      {
+        title: "Data Visualization",
+        slug: "data-visualization",
+        notes: [
+          { title: "Matplotlib Basics", slug: "matplotlib-basics" },
+          { title: "Interactive Visualizations with Plotly", slug: "plotly-visualizations" },
+        ],
+      },
+    ],
+  },
+  {
+    id: 4,
+    title: "Mobile Development",
+    slug: "mobile-development",
+    subcategories: [
+      {
+        title: "iOS Development",
+        slug: "ios-development",
+        notes: [
+          { title: "Swift Programming", slug: "swift-programming" },
+          { title: "UIKit Essentials", slug: "uikit-essentials" },
+        ],
+      },
+      {
+        title: "Android Development",
+        slug: "android-development",
+        notes: [
+          { title: "Kotlin Basics", slug: "kotlin-basics" },
+          { title: "Android Jetpack", slug: "android-jetpack" },
+        ],
+      },
+    ],
+  },
+  {
+    id: 5,
+    title: "DevOps",
+    slug: "devops",
+    subcategories: [
+      {
+        title: "Containerization",
+        slug: "containerization",
+        notes: [
+          { title: "Docker Fundamentals", slug: "docker-fundamentals" },
+          { title: "Kubernetes Basics", slug: "kubernetes-basics" },
+        ],
+      },
+      {
+        title: "CI/CD",
+        slug: "ci-cd",
+        notes: [
+          { title: "Jenkins Pipelines", slug: "jenkins-pipelines" },
+          { title: "GitLab CI", slug: "gitlab-ci" },
+        ],
+      },
+    ],
+  },
+  {
+    id: 6,
+    title: "Database Systems",
+    slug: "database-systems",
+    subcategories: [
+      {
+        title: "SQL Databases",
+        slug: "sql-databases",
+        notes: [
+          { title: "MySQL Basics", slug: "mysql-basics" },
+          { title: "PostgreSQL Advanced Features", slug: "postgresql-advanced" },
+        ],
+      },
+      {
+        title: "NoSQL Databases",
+        slug: "nosql-databases",
+        notes: [
+          { title: "MongoDB CRUD Operations", slug: "mongodb-crud" },
+          { title: "Redis Caching Strategies", slug: "redis-caching" },
+        ],
+      },
+    ],
+  },
+];
+
+const chunkedCategories = categories.reduce((resultArray, item, index) => {
+  const chunkIndex = Math.floor(index / 2); // 2 categories per column
+  if (!resultArray[chunkIndex]) {
+    resultArray[chunkIndex] = [];
+  }
+  resultArray[chunkIndex].push(item);
+  return resultArray;
+}, [] as Category[][]);
+---
+
+<section class="py-12 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">My Notes</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {chunkedCategories.map((column, columnIndex) => (
+        <div class="space-y-6">
+          <h3 class="text-xl font-semibold mb-4 text-gray-700">Column {columnIndex + 1}</h3>
+          <ol class="list-decimal list-outside space-y-4 pl-5">
+            {column.map((category) => (
+              <li key={category.id} class="space-y-2">
+                <a
+                  href={`/categories/${category.slug}`}
+                  class="text-lg font-semibold text-blue-600 hover:text-blue-800 hover:underline transition-colors duration-200"
+                >
+                  {category.title}
+                </a>
+                <ol class="list-decimal list-outside space-y-2 pl-5 mt-2">
+                  {category.subcategories.map((subcategory, subIndex) => (
+                    <li key={`${category.id}-${subIndex}`} class="space-y-1">
+                      <a
+                        href={`/subcategories/${subcategory.slug}`}
+                        class="font-medium text-gray-700 hover:text-blue-600 hover:underline transition-colors duration-200"
+                      >
+                        {subcategory.title}
+                      </a>
+                      <ul class="list-disc list-outside space-y-1 pl-5">
+                        {subcategory.notes.map((note, noteIndex) => (
+                          <li key={`${category.id}-${subIndex}-${noteIndex}`}>
+                            <a
+                              href={`/notes/${note.slug}`}
+                              class="text-gray-600 hover:text-blue-600 hover:underline transition-colors duration-200"
+                            >
+                              {note.title}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </li>
+                  ))}
+                </ol>
+              </li>
+            ))}
+          </ol>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
