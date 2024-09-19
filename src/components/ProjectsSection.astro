@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectGrid from './ProjectGrid';
+
+const allProjects = await getCollection('projects');
+---
+
+<section class="py-16 px-4 sm:px-6 lg:px-8">
+    <h2 class="text-3xl font-bold text-center mb-8">My Projects</h2>
+    <ProjectGrid client:load projects={allProjects} />
+</section>
+
+<script>
+    // Script for client-side rendering
+    document.addEventListener('astro:page-load', () => {
+        const modal = document.getElementById('image-modal');
+        const modalImage = document.getElementById('modal-image');
+        const closeModal = document.getElementById('close-modal');
+
+        document.querySelectorAll('.project-image').forEach(img => {
+            img.addEventListener('click', (e) => {
+                const src = e.target.getAttribute('src');
+                modalImage?.setAttribute('src', src);
+                modal?.classList.remove('hidden');
+            });
+        });
+
+        closeModal?.addEventListener('click', () => {
+            modal?.classList.add('hidden');
+        });
+
+        modal?.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.add('hidden');
+            }
+        });
+    });
+</script>
+
+<div id="image-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="max-w-4xl max-h-full p-4">
+        <img id="modal-image" src="" alt="Enlarge project image" class="max-w-full max-h-full object-container" />
+        <button id="close-modal" class="absolute top-4 right-4 text-white text-2xl">&times;</button>
+    </div>
+</div>
