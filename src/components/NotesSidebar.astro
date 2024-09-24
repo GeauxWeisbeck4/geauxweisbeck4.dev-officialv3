@@ -1,0 +1,58 @@
+---
+import { getCollection } from 'astro:content';
+
+const allNotes = await getCollection('notes');
+
+const categories = allNotes.reduce((acc, note) => {
+    const [category, subcategory] = note.data.category.split('/');
+    if (!acc[category]) {
+        acc[category] = { subcategories: {} };
+    }
+    if (subcategory) {
+        if (!acc[category].subcategories[subcategory]) {
+            acc[category].subcategories[subcategory] = [];
+        }
+        acc[category].subcategories[subcategory].push(note);
+    } else {
+        if (!acc[category].notes) {
+            acc[category.notes] = [];
+        }
+        acc[category].notes.push(note);
+    }
+    return acc;
+}, {});
+---
+
+<aside class="w-1/4 bg-gray-100 p-4 h-screen overflow-y-auto">
+    <h2 class="text-2xl font-bold mb-4">Categories</h2>
+    <ul>
+        {Object.entries(categories).map(([category, data]) => (
+            <li class="mb-2">
+                <details>
+                    <summary class="cursor-pointer font-semibold hover:text-blue-600">{category}</summary>
+                    <ul class="ml-4 mt-2">
+                        {data.notes && data.notes.map((note) => (
+                            <li class="mb-1">
+                                <a href={`/notes/${note.slug}`} class="text-blue-500 hover:underline">{note.data.title}</a>
+                            </li>
+                        ))}
+                        {Object.entries(data.subcategories).map(([subcategory, notes]) => (
+                            <li class="mb-1">
+                                <details>
+                                    <summary class="cursor-pointer hover:text-blue-600">{subcategory}</summary>
+                                    <ul class="ml-4 mt-1">
+                                        {notes.map((note) => (
+                                            <li>
+                                                <a href={`notes/${note.slug}`} class="text-blue-500 hover:underline">{note.data.title}</a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </details>
+                            </li>
+                        ))}
+                    </ul>
+                </details>
+            </li>
+        ))}
+    </ul>
+</aside>

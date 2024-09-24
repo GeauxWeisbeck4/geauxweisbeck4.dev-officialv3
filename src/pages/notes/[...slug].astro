@@ -1,0 +1,31 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import NotesSidebar from '../../components/NotesSidebar.astro';
+
+export async function getStaticPaths() {
+    const noteEntries = await getCollection('notes');
+    return noteEntries.map(entry => ({
+        params: { slug: entry.slug }, props: { entry },
+    }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<BaseLayout>
+    <div class="flex">
+        <NotesSidebar />
+        <main class="w-3/4 p-8">
+            <article class="max-w-3xl mx-auto">
+                <h1 class="text-4x font-bold mb-4">{entry.data.title}</h1>
+                <p class="text-gray-500 m-4">{entry.data.pubDate.toLocaleDateString()}</p>
+                <div class="prose max-w-none">
+                    <Content />
+                </div>
+            </article>
+        </main>
+    </div>
+</BaseLayout>

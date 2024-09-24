@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NotesSidebar from '../../components/NotesSidebar.astro';
+
+const allNotes = await getCollection('notes');
+---
+
+<BaseLayout>
+    <div class="flex">
+        <NotesSidebar />
+        <main class="w-3/4 p-8">
+            <h1 class="text-4xl font-bold mb-8">All Notes</h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {allNotes.map((note) => (
+                    <a href={`/notes/${note.slug}`} class="block">
+                        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                            <h2 class="text-xl font-semibold mb-2">{note.data.title}</h2>
+                            <p class="text-gray-600 mb-">{note.data.description}</p>
+                            <p class="text-sm text-gray-500">{note.data.pubDate.toLocaleDateString()}</p>
+                        </div>
+                    </a>
+                ))}
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('astro:page-load', () => {
+            const categoryLinks = document.querySelectorAll('aside a');
+            const noteCards = document.querySelectorAll('main .grid > a');
+
+            categoryLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const category = link.textContent;
+                    noteCards.forEach(card => {
+                        if (card.querySelector('h2').textContent === category) {
+                            card.computedStyleMap.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</BaseLayout>
