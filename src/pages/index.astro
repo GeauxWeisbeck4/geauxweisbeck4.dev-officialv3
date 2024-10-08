@@ -1,18 +1,22 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro"
-import Hero from "@/components/Hero.astro";
-import BlogPostList from "@/components/BlogPostList.astro";
-import NoteLinks from "@/components/NoteLinks.astro";
-import ProjectsSection from "@/components/ProjectsSection.astro";
-import KanbanBoard from "@/components/KanbanBoard";
-import YouTubeSection from "@/components/YouTubeSection.astro";
+// import Hero from "@/components/Hero.astro";
+// import BlogPostList from "@/components/BlogPostList.astro";
+// import NoteLinks from "@/components/NoteLinks.astro";
+// import ProjectsSection from "@/components/ProjectsSection.astro";
+// import KanbanBoard from "@/components/KanbanBoard";
+// import YouTubeSection from "@/components/YouTubeSection.astro";
+import BentoGrid from '../components/BentoGrid';
 ---
 
 <BaseLayout>
-	<Hero />
+	<!-- <Hero />
 	<BlogPostList />
 	<NoteLinks />
 	<ProjectsSection />
 	<KanbanBoard />
-	<YouTubeSection />
+	<YouTubeSection /> -->
+	<main>
+		<BentoGrid client:load />
+	</main>
 </BaseLayout>

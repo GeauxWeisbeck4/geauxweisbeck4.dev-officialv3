@@ -1,0 +1,23 @@
+---
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog');
+const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+export interface Props {
+    limit?: number;
+}
+
+const { limit = 3 } = Astro.props;
+---
+
+<div class="space-y-4">
+    {sortedPosts.slice(0, limit).map((post) => (
+        <div class="bg-white p-4 rounded-lg shadow">
+            <h3 class="text-xl font-bold mb-2">{post.data.title}</h3>
+            <p class="text-gray-500 mb-2">{post.data.description}</p>
+            <p class="text-sm text-gray-500 mb-2">{post.data.pubDate.toLocaleDateString()}</p>
+            <a href={`/blog/${post.slug}`} class="text-blue-500 hover:underline">Read More</a>
+        </div>
+    ))}
+</div>
