@@ -1,7 +1,7 @@
 ---
 title: "Dev Journal September 29, 2024"
-descrption: "Reviewing my weekend and what I worked on, plus things I learned."
-pubDate: "2024-09-29 09:25"
+description: "Reviewing my weekend and what I worked on, plus things I learned."
+publishDate: "2024-09-29 09:25"
 tags: ["dev journal", "GeauxWeisbeck4", "programming"]
 category: "Dev Journal"
 ---

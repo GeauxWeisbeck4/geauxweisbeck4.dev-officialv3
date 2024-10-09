@@ -1,0 +1,116 @@
+---
+import '@/styles/globals.css';
+import Navbar from '../components/Navbar.astro';
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon';
+
+const { title } = Astro.props;
+
+const profileInfo = {
+    name: "Andrew Weisbeck",
+    title: "Full-Stack Developer",
+    description: "33-year old entrepreneur and developer, located in North Carolina.",
+    profilePicture: "/public/codingatnight.png",
+    socialLinks: [
+        { name: "twitter", url: "https://twitter.com/geauxweisbeck4" },
+        { name: "threads", url: "https://threads.net/geauxweisbeck4" },
+        { name: "facebook", url: "https://facebook.com/geauxweisbeck4" },
+        { name: "linkedin", url: "https://linkedin.com/in/geauxweisbeck4" },
+        { name: "mastodon", url: "https://fosstodon.org/geauxweisbeck4" },
+    ],
+    blogs: [
+    { name: "Hashnode", url: "https://geauxcode.hashnode.dev" },
+    { name: "Dev.to", url: "https://dev.to/geauxweisbeck4" },
+    { name: "Medium", url: "https://medium.com/@geauxweisbeck4" },
+  ],
+  otherLinks: [
+    { name: "Newsletter", url: "/newsletter" },
+    { name: "Business Website", url: "https://tarheeldevstudio.netlify.app" },
+    { name: "Resume Website", url: "https://andrewweisbeck.com" },
+    { name: "Ko-Fi", url: "https://ko-fi.com/geauxweisbeck4" },
+  ],
+  navLinks: [
+    { name: "Home", url: "/" },
+    { name: "About", url: "/about" },
+    { name: "Blog", url: "/blog" },
+    { name: "Projects", url: "/projects" },
+    { name: "Notes", url: "/notes" },
+    { name: "Resources", url: "/resources" },
+    { name: "Contact", url: "/contact" },
+  ],
+}
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+  </head>
+  <body class="bg-gray-100">
+    <div class="flex">
+      <!-- Sidebar -->
+      <aside class="w-64 h-screen bg-white shadow-md fixed left-0 top-0 overflow-y-auto">
+        <div class="p-4">
+          <Image
+            src={profileInfo.profilePicture}
+            alt={profileInfo.name}
+            width={200}
+            height={200}
+            class="rounded-full mx-auto mb-4"
+          />
+          <h2 class="text-xl font-bold text-center">{profileInfo.name}</h2>
+          <p class="text-gray-600 text-center mb-2">{profileInfo.title}</p>
+          <p class="text-sm text-gray-500 text-center mb-4">{profileInfo.description}</p>
+
+          <!-- Social Media Icons -->
+          <div class="flex justify-center space-x-2 mb-4">
+            {profileInfo.socialLinks.map((link) => (
+              <a href={link.url} target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-gray-600">
+                {/* <Icon name={link.name} class="w-6 h-6" /> */}
+              </a>
+            ))}
+          </div>
+
+          <!-- Blog Links -->
+          <div class="mb-4">
+            {profileInfo.blogs.map((blog) => (
+              <a href={blog.url} target="_blank" rel="noopener noreferrer" class="block text-blue-500 hover:underline mb-1">
+                {blog.name}
+              </a>
+            ))}
+          </div>
+
+          <!-- Other Links -->
+          <div class="mb-4">
+            {profileInfo.otherLinks.map((link) => (
+              <a href={link.url} target="_blank" rel="noopener noreferrer" class="block text-blue-500 hover:underline mb-1">
+                {link.name}
+              </a>
+            ))}
+          </div>
+
+          <!-- Navigation Links -->
+          <nav>
+            {profileInfo.navLinks.map((link) => (
+              <a href={link.url} class="block py-2 px-4 text-gray-700 hover:bg-gray-200 rounded">
+                {link.name}
+              </a>
+            ))}
+          </nav>
+
+          <!-- Donate Button -->
+          <a href="/donate" class="block mt-4 bg-green-500 text-white text-center py-2 px-4 rounded hover:bg-green-600">
+            Donate
+          </a>
+        </div>
+      </aside>
+
+
+      <!-- Main Content -->
+      <main class="ml-64 p-8 w-full">
+        <Navbar />
+        <slot />
+      </main>
+    </div>
+  </body>
+</html>

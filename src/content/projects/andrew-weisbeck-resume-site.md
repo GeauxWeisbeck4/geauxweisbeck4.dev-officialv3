@@ -1,6 +1,7 @@
 ---
 title: "Andrew Weisbeck Resume Site"
 description: "My resume website I created for potential employers to visit to see my qualifications, experience, skills, and projects I have worked on."
+pubDate: 2024-09-20
 category: "Programming"
 image: "/andrewweisbeckresumeproject.png"
 websiteUrl: "https://andrewweisbeck.com"

@@ -1,22 +1,59 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro"
-// import Hero from "@/components/Hero.astro";
-// import BlogPostList from "@/components/BlogPostList.astro";
-// import NoteLinks from "@/components/NoteLinks.astro";
-// import ProjectsSection from "@/components/ProjectsSection.astro";
-// import KanbanBoard from "@/components/KanbanBoard";
-// import YouTubeSection from "@/components/YouTubeSection.astro";
-import BentoGrid from '../components/BentoGrid';
----
+import HomeLayout from "@/layouts/HomeLayout.astro";
+import BlogPostList from "@/components/BlogPostList.astro";
+import ProjectGrid from "@/components/ProjectGrid.astro";
+import NotesList from "@/components/NotesList.astro"
+import KanbanBoard from "@/components/KanbanBoard";
+import NewsletterSignup from "@/components/NewsletterSignup.astro";
+import Footer from "@/components/Footer.astro";
 
-<BaseLayout>
-	<!-- <Hero />
-	<BlogPostList />
-	<NoteLinks />
-	<ProjectsSection />
-	<KanbanBoard />
-	<YouTubeSection /> -->
-	<main>
-		<BentoGrid client:load />
-	</main>
-</BaseLayout>
+const heroContent = {
+	title: "Hello, I'm Andrew Weisbeck",
+	description: "I'm a passionate developer/designer/writer who loves creating amazing web experiences. With expertise in various technologies, I strive to build innovative solutions that make a difference."
+}
+
+---
+<HomeLayout title="Your Name - Home">
+	<!-- Hero Section -->
+	<section class="mb-16">
+	  <h1 class="text-4xl font-bold mb-4">{heroContent.title}</h1>
+	  <p class="text-xl text-gray-600 mb-8">{heroContent.description}</p>
+	  <div class="space-x-4">
+		<a href="/contact" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">Contact Me</a>
+		<a href="/resume" class="bg-gray-200 text-gray-800 px-6 py-2 rounded hover:bg-gray-300">Get My Resume</a>
+	  </div>
+	</section>
+
+	<!-- Recent Blog Posts -->
+	<section class="mb-16">
+	  <h2 class="text-3xl font-bold mb-8">Recent Blog Posts</h2>
+	  <BlogPostList limit={3} />
+	</section>
+
+	<!-- Projects Grid -->
+	<section class="mb-16">
+	  <h2 class="text-3xl font-bold mb-8">My Projects</h2>
+	  <ProjectGrid />
+	</section>
+
+	<!-- Notes List -->
+	<section class="mb-16">
+	  <h2 class="text-3xl font-bold mb-8">Recent Notes</h2>
+	  <NotesList limit={5} />
+	</section>
+
+	<!-- Kanban Board -->
+	<section class="mb-16">
+	  <h2 class="text-3xl font-bold mb-8">Current Sprint</h2>
+	  <KanbanBoard client:load />
+	</section>
+
+	<!-- Newsletter Signup -->
+	<section class="mb-16">
+	  <h2 class="text-3xl font-bold mb-8">Subscribe to My Newsletter</h2>
+	  <NewsletterSignup />
+	</section>
+
+	<!-- Footer -->
+	<Footer />
+  </HomeLayout>

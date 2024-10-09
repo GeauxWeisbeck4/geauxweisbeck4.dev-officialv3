@@ -1,6 +1,7 @@
 ---
 title: "GeauxWeisbeck4.dev - Digital Garden"
 description: "This is the very site you are on right now which is also known as Andrew's Digital Garden"
+pubDate: 2024-10-07
 category: "Programming"
 image: "/geauxweisbeck4-screenshot.png"
 websiteUrl: "https://geauxweisbeck4.dev"

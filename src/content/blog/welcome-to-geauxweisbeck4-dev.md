@@ -1,7 +1,7 @@
 ---
 title: "Welcome to GeauxWeisbeck4.dev"
-descrption: "Welcoming you to my digital garden and explaining more about the purpose of this website."
-pubDate: "2024-09-20 09:25"
+description: "Welcoming you to my digital garden and explaining more about the purpose of this website."
+publishDate: "2024-09-20 09:25"
 tags: ["news", "GeauxWeisbeck4", "updates"]
 category: "Site News"
 ---
