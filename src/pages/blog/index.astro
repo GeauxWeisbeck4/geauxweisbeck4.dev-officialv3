@@ -1,18 +1,15 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import PostList from '@/components/PostList.astro';
+import BlogPostList from '@/components/BlogPostList.astro';
 
 const allPosts = await getCollection('blog');
-const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const sortedPosts = allPosts.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
 const postsPerPage = 10;
-const totalPages = Math.ceil(sortedPosts.length / postsPerPage);
 
-const currentPage = 1;
-const posts = sortedPosts.slice(0, postsPerPage);
 ---
 
 <BaseLayout>
     <h1 class="text-4xl font-bold mb-8">Tar Heel Dev Studio Blog</h1>
-    <PostList posts={posts} page={currentPage} totalPages={totalPages} baseUrl="/blog" />
+    <BlogPostList />
 </BaseLayout>
